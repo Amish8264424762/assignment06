@@ -54,6 +54,18 @@ class Mortgage:
                 raise ValueError("Invalid Rate provided.")
             self._rate = value
 
+         # Accessor and Mutator for Frequency
+        @property
+        def frequency(self):
+            return self._frequency
+
+        @frequency.setter
+        def frequency(self, value):
+            if not isinstance(value, PaymentFrequency):
+                raise ValueError("Invalid Frequency provided.")
+            self._frequency = value
+
+
 
 
 

@@ -77,6 +77,39 @@ class MortgageTests(TestCase):
             mortgage = Mortgage(100000, MortgageRate.FIXED_5, PaymentFrequency.MONTHLY, 30)
             mortgage.amortization = 35
 
+
+
+class MortgageTests(TestCase):
+    def test_invalid_loan_amount(self):
+        with self.assertRaises(ValueError):
+            Mortgage(0, MortgageRate.FIXED_5, PaymentFrequency.MONTHLY, 30)
+
+    def test_invalid_rate(self):
+        with self.assertRaises(ValueError):
+            Mortgage(100000, 5.0, PaymentFrequency.MONTHLY, 30)
+
+    def test_invalid_frequency(self):
+        with self.assertRaises(ValueError):
+            Mortgage(100000, MortgageRate.FIXED_5, "MONTHLY", 30)
+
+    def test_invalid_amortization(self):
+        with self.assertRaises(ValueError):
+            Mortgage(100000, MortgageRate.FIXED_5, PaymentFrequency.MONTHLY, 40)
+
+    def test_valid_inputs(self):
+        mortgage = Mortgage(100000, MortgageRate.FIXED_5, PaymentFrequency.MONTHLY, 30)
+        self.assertEqual(mortgage.loan_amount, 100000)
+        self.assertEqual(mortgage.rate, MortgageRate.FIXED_5)
+        self.assertEqual(mortgage.frequency, PaymentFrequency.MONTHLY)
+        self.assertEqual(mortgage.amortization, 30)
+
+        # Additional checks using accessors
+        self.assertEqual(mortgage.get_loan_amount(), 100000)
+        self.assertEqual(mortgage.get_rate(), MortgageRate.FIXED_5)
+        self.assertEqual(mortgage.get_frequency(), PaymentFrequency.MONTHLY)
+        self.assertEqual(mortgage.get_amortization(), 30)
+
+
     
 
 

@@ -31,7 +31,18 @@ class Mortgage:
         if amortization not in VALID_AMORTIZATION:
             raise ValueError("Invalid Amortization provided.")
         self.amortization = amortization
-        
+
+        # Accessor and Mutator for Loan Amount
+        @property
+        def loan_amount(self):
+            return self._loan_amount
+
+        @loan_amount.setter
+        def loan_amount(self, value):
+            if value <= 0:
+                raise ValueError("Loan Amount must be positive.")
+            self._loan_amount = value
+
 
 
 

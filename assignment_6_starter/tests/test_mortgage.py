@@ -34,3 +34,17 @@ class MortgageTests(TestCase):
         self.assertEqual(mortgage.frequency, PaymentFrequency.MONTHLY)
         self.assertEqual(mortgage.amortization, 30)
 
+    def test_mutator_negative_loan_amount(self):
+        with self.assertRaises(ValueError):
+            mortgage = Mortgage(-100000, MortgageRate.FIXED_5, PaymentFrequency.MONTHLY, 30)
+
+    def test_mutator_zero_loan_amount(self):
+        with self.assertRaises(ValueError):
+            mortgage = Mortgage(0, MortgageRate.FIXED_5, PaymentFrequency.MONTHLY, 30)
+
+    def test_mutator_positive_loan_amount(self):
+        mortgage = Mortgage(100000, MortgageRate.FIXED_5, PaymentFrequency.MONTHLY, 30)
+        mortgage.loan_amount = 150000
+        self.assertEqual(mortgage.loan_amount, 150000)
+
+

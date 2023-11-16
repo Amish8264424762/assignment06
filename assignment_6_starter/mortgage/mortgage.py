@@ -31,6 +31,7 @@ class Mortgage:
         if amortization not in VALID_AMORTIZATION:
             raise ValueError("Invalid Amortization provided.")
         self.amortization = amortization
+        
 
 
 

@@ -109,8 +109,33 @@ class MortgageTests(TestCase):
         self.assertEqual(mortgage.get_frequency(), PaymentFrequency.MONTHLY)
         self.assertEqual(mortgage.get_amortization(), 30)
 
+    def calculate_payment(self) -> float:
+        # Mortgage formula
+        n = self.amortization * self.frequency
+        r = self.rate.value / self.frequency / 100  
+        pv = self.loan_amount
+        payment = pv * r / (1 - (1 + r) ** -n)
+        return round(payment, 2)
 
-    
+    def test_calculate_payment(self):
+        mortgage = Mortgage(682912.43, MortgageRate.FIXED_1, PaymentFrequency.MONTHLY, 30)
+        # Manually calculated expected payment based on the given example
+        expected_payment = 4046.23
+        self.assertAlmostEqual(mortgage.calculate_payment(), expected_payment, places=2)
+
+    def test_str_representation(self):
+        mortgage = Mortgage(682912.43, MortgageRate.FIXED_1, PaymentFrequency.MONTHLY, 30)
+        expected_str = (
+            "Mortgage Amount: $682,912.43\n"
+            "Rate: 5.89%\n"
+            "Amortization: 30\n"
+            "Frequency: Monthly -- Calculated Payment: $4,046.23"
+        )
+        self.assertEqual(str(mortgage), expected_str)
+        
+
+
+
 
 
 

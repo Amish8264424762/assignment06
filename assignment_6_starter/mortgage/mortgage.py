@@ -76,20 +76,23 @@ class Mortgage:
                 raise ValueError("Invalid Amortization provided.")
             self._amortization = value
 
+        def __str__(self):
+            frequency_str = {
+                PaymentFrequency.MONTHLY: "Monthly",
+                PaymentFrequency.BI_WEEKLY: "BiWeekly",
+                PaymentFrequency.WEEKLY: "Weekly",
+            }
+            formatted_payment = f"${self.calculate_payment():,.2f}"
+            return (
+                f"Mortgage Amount: ${self.loan_amount:,.2f}\n"
+                f"Rate: {self.rate.value * 100:.2f}%\n"
+                f"Amortization: {self.amortization}\n"
+                f"Frequency: {frequency_str[self.frequency]} -- Calculated Payment: {formatted_payment}"
+            )
 
-        def calculate_payment(self) -> float:
-            # Mortgage formula
-            n = self.amortization * self.frequency
-            r = self.rate.value / self.frequency / 100  
-            pv = self.loan_amount
-            payment = pv * r / (1 - (1 + r) ** -n)
-            return round(payment, 2)
 
-        def test_calculate_payment(self):
-            mortgage = Mortgage(682912.43, MortgageRate.FIXED_1, PaymentFrequency.MONTHLY, 30)
-            # Manually calculated expected payment based on the given example
-            expected_payment = 4046.23
-            self.assertAlmostEqual(mortgage.calculate_payment(), expected_payment, places=2)
+
+      
 
 
 

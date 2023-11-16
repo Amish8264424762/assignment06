@@ -47,4 +47,14 @@ class MortgageTests(TestCase):
         mortgage.loan_amount = 150000
         self.assertEqual(mortgage.loan_amount, 150000)
 
+    def test_mutator_valid_rate(self):
+        mortgage = Mortgage(100000, MortgageRate.FIXED_5, PaymentFrequency.MONTHLY, 30)
+        mortgage.rate = MortgageRate.VARIABLE_1
+        self.assertEqual(mortgage.rate, MortgageRate.VARIABLE_1)
+
+    def test_mutator_invalid_rate(self):
+        with self.assertRaises(ValueError):
+            mortgage = Mortgage(100000, MortgageRate.FIXED_5, PaymentFrequency.MONTHLY, 30)
+            mortgage.rate = 0.05
+
 

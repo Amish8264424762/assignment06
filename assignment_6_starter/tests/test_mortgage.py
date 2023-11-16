@@ -67,6 +67,16 @@ class MortgageTests(TestCase):
             mortgage = Mortgage(100000, MortgageRate.FIXED_5, PaymentFrequency.MONTHLY, 30)
             mortgage.frequency = "WEEKLY"
 
+    def test_mutator_valid_amortization(self):
+        mortgage = Mortgage(100000, MortgageRate.FIXED_5, PaymentFrequency.MONTHLY, 30)
+        mortgage.amortization = 15
+        self.assertEqual(mortgage.amortization, 15)
+
+    def test_mutator_invalid_amortization(self):
+        with self.assertRaises(ValueError):
+            mortgage = Mortgage(100000, MortgageRate.FIXED_5, PaymentFrequency.MONTHLY, 30)
+            mortgage.amortization = 35
+
     
 
 
